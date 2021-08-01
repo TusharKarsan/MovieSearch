@@ -1,4 +1,5 @@
 ﻿using System;
+using MovieDB;
 
 namespace MovieConsole
 {
@@ -6,7 +7,11 @@ namespace MovieConsole
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var movies = MovieData.Movies;
+            Console.WriteLine($"Movies read {movies.Length}");
+
+            Console.Write("Hit [Enter] to exist: ");
+            Console.ReadLine();
         }
     }
 }
