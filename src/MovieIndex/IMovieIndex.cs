@@ -7,6 +7,6 @@ namespace MovieIndex
     {
         void BuildIndex(Movie[] movies);
 
-        List<Movie> Search(string searchTerms, int year = -1);
+        List<Movie> Search(string searchTerms, int[] years);
     };
 }

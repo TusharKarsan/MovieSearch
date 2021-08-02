@@ -3,6 +3,7 @@ using MovieIndex;
 using MovieModels;
 using MovieModels.MoviePoco;
 using System;
+using System.Linq;
 
 namespace MovieConsole
 {
@@ -34,19 +35,21 @@ namespace MovieConsole
             Search("Term Salv");
             Search("New");
             Search("New York");
-            Search("new york", 1990);
+            Search("new york", new[] { 1990, 2004 });
             Search("new york gang");
 
             Console.Write("Hit [Enter] to exist: ");
             Console.ReadLine();
         }
 
-        private void Search(string terms, int year = -1)
+        private void Search(string terms, int[] years = null)
         {
-            Console.WriteLine();
-            Console.WriteLine($"Searching '{terms}' year {year}");
+            var yearsText = years != null ? string.Join(", ", years) : "null";
 
-            var searchResult = _movieIndex.Search(terms, year);
+            Console.WriteLine();
+            Console.WriteLine($"Searching '{terms}' year {yearsText}");
+
+            var searchResult = _movieIndex.Search(terms, years);
             Console.WriteLine($"Found {searchResult.Count} movies");
 
             foreach (Movie movie in searchResult)

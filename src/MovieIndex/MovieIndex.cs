@@ -72,9 +72,9 @@ namespace MovieIndex
             return split.Except(_stopWrods, StringComparer.InvariantCultureIgnoreCase).Select(term => term.ToLower()).ToList();
         }
 
-        public List<Movie> Search(string searchTerms, int year = -1)
+        public List<Movie> Search(string searchTerms, int[] years)
         {
-            List<Movie> resultYear = Search(year);
+            List<Movie> resultYear = Search(years);
 
             List<Movie> resultTerm = Search(searchTerms);
 
@@ -91,9 +91,20 @@ namespace MovieIndex
             return result;
         }
 
-        protected List<Movie> Search(int year)
+        protected List<Movie> Search(int[] years)
         {
-            return (year > 0 && _yearToMovie.ContainsKey(year)) ? _yearToMovie[year] : new List<Movie>();
+            List<Movie> result = new List<Movie>();
+
+            if (years == null || years.Length == 0)
+                return result;
+
+            foreach(int year in years)
+            {
+                if (_yearToMovie.ContainsKey(year))
+                    result = result.Union(_yearToMovie[year]).ToList();
+            }
+
+            return result;
         }
 
         protected List<Movie> Search(string searchTerms)
