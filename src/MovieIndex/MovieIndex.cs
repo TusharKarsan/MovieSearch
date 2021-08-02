@@ -12,11 +12,14 @@ namespace MovieIndex
 
         private static readonly SortedList<int, List<Movie>> _yearToMovie;
 
+        private static readonly SortedList<string, List<Movie>> _genreToMovie;
+
         private static readonly SortedList<string, List<Movie>> _wordToMovie;
 
         static MovieIndex()
         {
             _yearToMovie = new SortedList<int, List<Movie>>();
+            _genreToMovie = new SortedList<string, List<Movie>>();
             _wordToMovie = new SortedList<string, List<Movie>>();
         }
 
@@ -46,6 +49,19 @@ namespace MovieIndex
                         _yearToMovie.Add(movie.Year, new List<Movie> { movie });
                 }
 
+                if(movie.Info.Genres != null)
+                {
+                    foreach(string genre in movie.Info.Genres) // assumes there are no duplicates in the array
+                    {
+                        var genreLower = genre.Trim().ToLower();
+
+                        if (_genreToMovie.ContainsKey(genreLower))
+                            _genreToMovie[genreLower].Add(movie);
+                        else
+                            _genreToMovie.Add(genreLower, new List<Movie> { movie });
+                    }
+                }
+
                 var terms = SplitAndSanitize(movie.Title);
 
                 foreach (string term in terms)
@@ -60,7 +76,7 @@ namespace MovieIndex
 
         private static char[] _separators = { ' ', '\t', '\n', '\r', ',', '.', '?', '&', '-', '+', ':' };
 
-        private static string[] _stopWrods = { "a", "and", "the" };
+        private static string[] _stopWrods = { "a", "and", "of", "the" };
 
         public static List<string> SplitAndSanitize(string terms)
         {
@@ -72,13 +88,34 @@ namespace MovieIndex
             return split.Except(_stopWrods, StringComparer.InvariantCultureIgnoreCase).Select(term => term.ToLower()).ToList();
         }
 
-        public List<Movie> Search(string searchTerms, int[] years)
+        public List<Movie> Search(string searchTerms, int[] years, string[] genres = null)
         {
-            List<Movie> resultYear = Search(years);
 
-            List<Movie> resultTerm = Search(searchTerms);
+            if (string.IsNullOrWhiteSpace(searchTerms))
+                throw new InvalidOperationException("Search term is required");
 
-            List<Movie> result = resultYear.Count > 0 ? resultYear.Intersect(resultTerm).ToList() : resultTerm;
+            List<Movie> resultYears = SearchYears(years);
+
+            List<Movie> resultGenres = SearchGenres(genres);
+
+            List<Movie> result = SearchTerms(searchTerms);
+
+            if (years?.Length > 0)
+            {
+                result = result.Intersect(resultYears).ToList();
+
+                if (genres?.Length > 0)
+                {
+                    result = result.Intersect(resultGenres).ToList();
+                }
+            }
+            else
+            {
+                if (genres?.Length > 0)
+                {
+                    result = result.Intersect(resultGenres).ToList();
+                }
+            }
 
             result.Sort(delegate (Movie x, Movie y)
             {
@@ -91,7 +128,7 @@ namespace MovieIndex
             return result;
         }
 
-        protected List<Movie> Search(int[] years)
+        protected List<Movie> SearchYears(int[] years)
         {
             List<Movie> result = new List<Movie>();
 
@@ -107,7 +144,25 @@ namespace MovieIndex
             return result;
         }
 
-        protected List<Movie> Search(string searchTerms)
+        protected List<Movie> SearchGenres(string[] genres)
+        {
+            List<Movie> result = new List<Movie>();
+
+            if (genres == null || genres.Length == 0)
+                return result;
+
+            foreach (string genre in genres)
+            {
+                var genreLower = genre.Trim().ToLower();
+
+                if (_genreToMovie.ContainsKey(genreLower))
+                    result = result.Union(_genreToMovie[genreLower]).ToList();
+            }
+
+            return result;
+        }
+
+        protected List<Movie> SearchTerms(string searchTerms)
         {
             var result = new List<Movie>();
 

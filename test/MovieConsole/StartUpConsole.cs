@@ -33,23 +33,26 @@ namespace MovieConsole
 
             Search("Terminat");
             Search("Term Salv");
-            Search("New");
-            Search("New York");
-            Search("new york", new[] { 1990, 2004 });
+            Search("Term", new[] { 2008, 2009, 2010 });
+            Search("Term Salv", null, new[] { "action", "thriller" });
+            Search("Term Salv", null, new[] { "findMeNot" });
+            Search("Term Salv", new[] { 2008, 2009, 2010 }, new[] { "action", "thriller" });
+            Search(" york new ", new[] { 1990, 2004 });
             Search("new york gang");
 
             Console.Write("Hit [Enter] to exist: ");
             Console.ReadLine();
         }
 
-        private void Search(string terms, int[] years = null)
+        private void Search(string terms, int[] years = null, string[] genres = null)
         {
             var yearsText = years != null ? string.Join(", ", years) : "null";
+            var genresText = genres != null ? string.Join(", ", genres) : "null";
 
             Console.WriteLine();
-            Console.WriteLine($"Searching '{terms}' year {yearsText}");
+            Console.WriteLine($"Searching '{terms}' years [{yearsText}] genres [{genresText}]");
 
-            var searchResult = _movieIndex.Search(terms, years);
+            var searchResult = _movieIndex.Search(terms, years, genres);
             Console.WriteLine($"Found {searchResult.Count} movies");
 
             foreach (Movie movie in searchResult)
