@@ -12,7 +12,7 @@ namespace MovieDB
     public class MovieData : IMovieData
     {
         private readonly IMapper _mapper;
-        private static DbMovie[] _movies;
+        private static readonly DbMovie[] _movies;
 
         public MovieData(IMapper mapper)
         {
