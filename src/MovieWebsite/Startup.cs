@@ -1,12 +1,12 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using MovieDB;
+using MovieModels;
 
 namespace MovieWebsite
 {
@@ -22,7 +22,18 @@ namespace MovieWebsite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MovieDbMapperProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services
+                .Configure<AppSettings>(Configuration.GetSection("appSettings"))
+                .AddSingleton(resolver => resolver.GetRequiredService<IOptions<AppSettings>>().Value)
+                .AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

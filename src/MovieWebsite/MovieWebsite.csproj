@@ -5,8 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MovieDB\MovieDB.csproj" />
     <ProjectReference Include="..\MovieIndex\MovieIndex.csproj" />
+    <ProjectReference Include="..\MovieModels\MovieModels.csproj" />
   </ItemGroup>
 
 </Project>

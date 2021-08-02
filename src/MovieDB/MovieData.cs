@@ -1,4 +1,6 @@
-﻿using MovieDB.Models;
+﻿using AutoMapper;
+using MovieDB.Models;
+using MovieModels;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -6,9 +8,16 @@ using System.Text.Json;
 
 namespace MovieDB
 {
-    public class MovieData
+
+    public class MovieData : IMovieData
     {
-        public static Movie[] Movies { get; private set; }
+        private readonly IMapper _mapper;
+        private static DbMovie[] _movies;
+
+        public MovieData(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
 
         static MovieData()
         {
@@ -16,12 +25,17 @@ namespace MovieDB
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             };
-            
+
             string exeDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string dataFilePath = Path.Combine(exeDirectory, "MovieData.json");
 
             var json = File.ReadAllText(dataFilePath, Encoding.UTF8);
-            Movies = JsonSerializer.Deserialize<Movie[]>(json, options);
+            _movies = JsonSerializer.Deserialize<DbMovie[]>(json, options);
+        }
+
+        public Movie[] GetMovies()
+        {
+            return _mapper.Map<Movie[]>(_movies);
         }
     }
 }

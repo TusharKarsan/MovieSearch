@@ -1,5 +1,12 @@
-﻿using System;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using MovieDB;
+using MovieModels;
+using System;
 
 namespace MovieConsole
 {
@@ -7,11 +14,39 @@ namespace MovieConsole
     {
         static void Main(string[] args)
         {
-            var movies = MovieData.Movies;
-            Console.WriteLine($"Movies read {movies.Length}");
+            try
+            {
+                var host = Host.CreateDefaultBuilder(args)
+                    .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                    .ConfigureContainer<ContainerBuilder>(builder => {
+                        builder.RegisterModule<MovieDbModule>();
+                    })
+                    .ConfigureServices((context, services) =>
+                    {
+                        var mapperConfig = new MapperConfiguration(mc =>
+                        {
+                            mc.AddProfile(new MovieDbMapperProfile());
+                        });
 
-            Console.Write("Hit [Enter] to exist: ");
-            Console.ReadLine();
+                        IMapper mapper = mapperConfig.CreateMapper();
+
+                        services
+                            .AddSingleton(mapper)
+                            .AddOptions()
+                            .Configure<AppSettings>(context.Configuration.GetSection("appSettings"))
+                            .AddSingleton(resolver => resolver.GetRequiredService<IOptions<AppSettings>>().Value)
+                            .AddTransient<IStartUpConsole, StartUpConsole>();
+                    })
+                    .Build();
+
+                IStartUpConsole consoleService = host.Services.GetRequiredService<IStartUpConsole>();
+                consoleService.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+                Console.Error.WriteLine(ex.StackTrace);
+            }
         }
     }
 }

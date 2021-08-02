@@ -15,11 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieIndex", "src\MovieInde
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieWebsite", "src\MovieWebsite\MovieWebsite.csproj", "{74A4CDE9-02C0-445A-A763-6DD40AA5CD85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieDB.Tests", "test\MovieDB.Tests\MovieDB.Tests.csproj", "{B115032C-53E5-47DB-8735-E3906306BAFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieDB.Tests", "test\MovieDB.Tests\MovieDB.Tests.csproj", "{B115032C-53E5-47DB-8735-E3906306BAFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieIndex.Tests", "test\MovieIndex.Tests\MovieIndex.Tests.csproj", "{91978340-9124-4C1C-95B2-ACB57D1B9271}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieIndex.Tests", "test\MovieIndex.Tests\MovieIndex.Tests.csproj", "{91978340-9124-4C1C-95B2-ACB57D1B9271}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieWebsite.Tests", "test\MovieWebsite.Tests\MovieWebsite.Tests.csproj", "{49B224E8-35F4-44DC-A68B-56BBD45D03B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieWebsite.Tests", "test\MovieWebsite.Tests\MovieWebsite.Tests.csproj", "{49B224E8-35F4-44DC-A68B-56BBD45D03B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieModels", "src\MovieModels\MovieModels.csproj", "{D102CAD4-8EF5-4DBB-AB1C-57F2A353DFA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{49B224E8-35F4-44DC-A68B-56BBD45D03B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49B224E8-35F4-44DC-A68B-56BBD45D03B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49B224E8-35F4-44DC-A68B-56BBD45D03B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D102CAD4-8EF5-4DBB-AB1C-57F2A353DFA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D102CAD4-8EF5-4DBB-AB1C-57F2A353DFA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D102CAD4-8EF5-4DBB-AB1C-57F2A353DFA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D102CAD4-8EF5-4DBB-AB1C-57F2A353DFA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{B115032C-53E5-47DB-8735-E3906306BAFC} = {7D4EBE11-8217-4E90-AEB8-E50715C1DD72}
 		{91978340-9124-4C1C-95B2-ACB57D1B9271} = {7D4EBE11-8217-4E90-AEB8-E50715C1DD72}
 		{49B224E8-35F4-44DC-A68B-56BBD45D03B8} = {7D4EBE11-8217-4E90-AEB8-E50715C1DD72}
+		{D102CAD4-8EF5-4DBB-AB1C-57F2A353DFA2} = {B914C1CC-F0D4-4985-9ED3-201F327166B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B4F46E72-441E-4597-ABDF-14CD4AC7176D}
