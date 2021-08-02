@@ -1,4 +1,4 @@
-﻿namespace MovieModels
+﻿namespace MovieModels.MoviePoco
 {
     public class Movie
     {

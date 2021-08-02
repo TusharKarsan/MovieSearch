@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MovieModels
+namespace MovieModels.MoviePoco
 {
     public class MovieInfo
     {

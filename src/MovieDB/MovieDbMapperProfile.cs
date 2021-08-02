@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MovieDB.Models;
-using MovieModels;
+using MovieModels.MoviePoco;
 
 namespace MovieDB
 {

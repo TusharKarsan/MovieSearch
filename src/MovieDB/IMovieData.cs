@@ -1,4 +1,4 @@
-﻿using MovieModels;
+﻿using MovieModels.MoviePoco;
 
 namespace MovieDB
 {
