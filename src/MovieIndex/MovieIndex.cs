@@ -5,14 +5,8 @@ using System.Linq;
 
 namespace MovieIndex
 {
-    public interface IMovieIndexBuilder
-    {
-        void BuildIndex(Movie[] movies);
 
-        List<Movie> Search(string searchTerms, int year = -1);
-    };
-
-    public class MovieIndex : IMovieIndexBuilder
+    public class MovieIndex : IMovieIndex
     {
         private static bool _indexedAlready = false;
 
@@ -42,7 +36,7 @@ namespace MovieIndex
                 throw new InvalidOperationException("Multiple int builds is not supported!");
             _indexedAlready = true;
 
-            foreach(Movie movie in movies)
+            foreach (Movie movie in movies)
             {
                 if (movie.Year > 0)
                 {
@@ -54,7 +48,7 @@ namespace MovieIndex
 
                 var terms = SplitAndSanitize(movie.Title);
 
-                foreach(string term in terms)
+                foreach (string term in terms)
                 {
                     if (_wordToMovie.ContainsKey(term))
                         _wordToMovie[term].Add(movie);
@@ -80,26 +74,11 @@ namespace MovieIndex
 
         public List<Movie> Search(string searchTerms, int year = -1)
         {
-            var result = (year > 0 && _yearToMovie.ContainsKey(year)) ? _yearToMovie[year] : new List<Movie>();
+            List<Movie> resultYear = Search(year);
 
-            var terms = SplitAndSanitize(searchTerms); // It handles NULLs
+            List<Movie> resultTerm = Search(searchTerms);
 
-            if (terms.Count == 0)
-                return result;
-
-            var termsInIndex = _wordToMovie.Keys;
-
-            foreach(string word in termsInIndex)
-            {
-                foreach (string term in terms)
-                {
-                    if (word.StartsWith(term))
-                    {
-                        var movies = _wordToMovie[word];
-                        result = result.Union(movies).ToList(); // Need object ref, not MovieComparer
-                    }
-                }
-            }
+            List<Movie> result = resultYear.Count > 0 ? resultYear.Intersect(resultTerm).ToList() : resultTerm;
 
             result.Sort(delegate (Movie x, Movie y)
             {
@@ -108,6 +87,44 @@ namespace MovieIndex
 
                 return rankY - rankX;
             });
+
+            return result;
+        }
+
+        protected List<Movie> Search(int year)
+        {
+            return (year > 0 && _yearToMovie.ContainsKey(year)) ? _yearToMovie[year] : new List<Movie>();
+        }
+
+        protected List<Movie> Search(string searchTerms)
+        {
+            var result = new List<Movie>();
+
+            var terms = SplitAndSanitize(searchTerms); // It handles NULLs
+
+            var termsInIndex = _wordToMovie.Keys;
+
+            bool isFirstTerm = true;
+            foreach (string term in terms)
+            {
+                List<Movie> termResult = new List<Movie>();
+
+                foreach (string word in termsInIndex)
+                {
+                    if (word.StartsWith(term))
+                    {
+                        var movies = _wordToMovie[word];
+                        termResult = termResult.Union(movies).ToList();
+                    }
+                }
+
+                if (isFirstTerm)
+                    result = termResult;
+                else
+                    result = result.Intersect(termResult).ToList();
+
+                isFirstTerm = false;
+            }
 
             return result;
         }

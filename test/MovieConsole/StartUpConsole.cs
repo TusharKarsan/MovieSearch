@@ -10,14 +10,17 @@ namespace MovieConsole
     {
         private readonly AppSettings _appSettings;
         private readonly IMovieData _moveiData;
+        private readonly IMovieIndex _movieIndex;
 
         public StartUpConsole(
             AppSettings appSettings,
-            IMovieData movieData
+            IMovieData movieData,
+            IMovieIndex movieIndex
         )
         {
             _appSettings = appSettings;
             _moveiData = movieData;
+            _movieIndex = movieIndex;
         }
 
         public /*async Task*/ void Run()
@@ -25,23 +28,25 @@ namespace MovieConsole
             var movies = _moveiData.GetMovies();
             Console.WriteLine($"Movies read {movies.Length}");
 
-            var movieIndexBuilder = new MovieIndex.MovieIndex();
-            movieIndexBuilder.BuildIndex(movies);
+            _movieIndex.BuildIndex(movies);
 
-            Search(movieIndexBuilder, "Terminat");
-            Search(movieIndexBuilder, "Term Salv");
-            Search(movieIndexBuilder, "New");
+            Search("Terminat");
+            Search("Term Salv");
+            Search("New");
+            Search("New York");
+            Search("new york", 1990);
+            Search("new york gang");
 
             Console.Write("Hit [Enter] to exist: ");
             Console.ReadLine();
         }
 
-        private static void Search(MovieIndex.MovieIndex movieIndexBuilder, string terms)
+        private void Search(string terms, int year = -1)
         {
             Console.WriteLine();
-            Console.WriteLine($"Searching '{terms}'");
+            Console.WriteLine($"Searching '{terms}' year {year}");
 
-            var searchResult = movieIndexBuilder.Search(terms);
+            var searchResult = _movieIndex.Search(terms, year);
             Console.WriteLine($"Found {searchResult.Count} movies");
 
             foreach (Movie movie in searchResult)

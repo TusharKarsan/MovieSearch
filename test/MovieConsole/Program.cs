@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using MovieDB;
+using MovieIndex;
 using MovieModels;
 using System;
 
@@ -20,6 +21,7 @@ namespace MovieConsole
                     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                     .ConfigureContainer<ContainerBuilder>(builder => {
                         builder.RegisterModule<MovieDbModule>();
+                        builder.RegisterModule<MovieIndexModule>();
                     })
                     .ConfigureServices((context, services) =>
                     {

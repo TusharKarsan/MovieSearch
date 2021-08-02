@@ -3,6 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using MovieDB;
+using MovieIndex;
 
 namespace MovieWebsite
 {
@@ -18,6 +19,7 @@ namespace MovieWebsite
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureContainer<ContainerBuilder>(builder => {
                     builder.RegisterModule<MovieDbModule>();
+                    builder.RegisterModule<MovieIndexModule>();
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
