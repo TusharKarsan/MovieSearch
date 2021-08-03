@@ -7,14 +7,55 @@
 <h1>Search</h1>
 
 <div class="row">
-    <div class="col-md-3">
-
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for movies">
+        <div class="input-group-append">
+            <button class="btn btn-secondary" type="button">
+                Search
+            </button>
+        </div>
     </div>
-    <div class="col-md-9">
+</div>
 
+<div class="row">
+    <div id="filterGenre" class="col-md-3">
+        <div class="row">
+            <p><strong>Genres</strong></p>
+        </div>
+        <div class="raw">
+            <div data-bind="template: { name:'template-filter-genre', foreach: tk.filters.genres }"></div>
+        </div>
+        <div class="raw">
+            <p>&nbsp; &nbsp;</p>
+        </div>
+        <div class="row">
+            <p><strong>Years</strong></p>
+        </div>
+        <div class="raw">
+            <div data-bind="template: { name:'template-filter-year', foreach: tk.filters.years }"></div>
+        </div>
+    </div>
+    <div id="filterYear" class="col-md-9">
+        <p></p><strong>Search Result</strong><p>
+        <p>The results will go here.</p>
     </div>
 </div>
 
 @section Scripts {
+
+    <script type="text/html" id="template-filter-genre">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" data-bind="value: $data, id: $data" />
+            <label class="form-check-label" data-bind="text: $data" />
+        </div>
+    </script>
+
+    <script type="text/html" id="template-filter-year">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" data-bind="value: $data, id: $data" />
+            <label class="form-check-label" data-bind="text: $data" />
+        </div>
+    </script>
+
     <script type="text/javascript" src="~/js/search.js"></script>
 }
