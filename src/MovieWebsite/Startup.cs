@@ -26,6 +26,7 @@ namespace MovieWebsite
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MovieDbMapperProfile());
+                mc.AddProfile(new MovieWebsiteMapperProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

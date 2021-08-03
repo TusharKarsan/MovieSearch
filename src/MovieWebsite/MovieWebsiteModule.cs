@@ -7,6 +7,7 @@ namespace MovieWebsite
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<FindMoviesCommandHandlers>().As<IFindMoviesCommandHandlers>();
             builder.RegisterType<GetYearsCommandHandler>().As<IGetYearsCommandHandler>();
             builder.RegisterType<GetGenresCommandHandler>().As<IGetGenresCommandHandler>();
         }

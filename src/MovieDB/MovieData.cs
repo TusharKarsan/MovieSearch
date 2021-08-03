@@ -31,6 +31,12 @@ namespace MovieDB
 
             var json = File.ReadAllText(dataFilePath, Encoding.UTF8);
             _movies = JsonSerializer.Deserialize<DbMovie[]>(json, options);
+
+            int id = 1000;
+            foreach (DbMovie movie in _movies)
+            {
+                movie.Id = ++id;
+            }
         }
 
         public Movie[] GetMovies()

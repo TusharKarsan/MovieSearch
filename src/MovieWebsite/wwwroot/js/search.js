@@ -83,6 +83,7 @@ tk.getResults = function (theControl) {
         data: payload,
         success: function (response) {
             console.log("got search results");
+            console.log(response);
         },
         failure: function (response) {
             console.warn("GetGenres failure with: " + response);
