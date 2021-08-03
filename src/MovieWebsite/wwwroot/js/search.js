@@ -2,6 +2,8 @@
 
 var tk = {
 
+    searchBox: ko.observable(""),
+
     filters : {
         years  : ko.observableArray([]),
         genres : ko.observableArray([])
@@ -44,6 +46,49 @@ tk.getGenres = function (callback) {
     }).done(function (msg) {
         if (callback) {
             callback();
+        }
+    });
+};
+
+tk.getResults = function (theControl) {
+
+    var genres = [];
+    var filterGenre = "#filterGenre input[type='checkbox']:checked";
+
+    var years = [];
+    var filterYear = "#filterYear input[type='checkbox']:checked";
+
+    jQuery(filterGenre).each(function (i2, e2) {
+        genres.push(e2.value);
+    });
+
+    jQuery(filterYear).each(function (i2, e2) {
+        years.push(Number(e2.value));
+    });
+
+    var searchCriteria = tk.searchBox();
+
+    if (searchCriteria.length == 0)
+        return 1;
+
+    var payload = {
+        search: searchCriteria,
+        genres: genres,
+        years: years
+    };
+
+    jQuery.ajax({
+        type: "POST",
+        url: "/Home/FindMovies",
+        data: payload,
+        success: function (response) {
+            console.log("got search results");
+        },
+        failure: function (response) {
+            console.warn("GetGenres failure with: " + response);
+        },
+        error: function (response) {
+            console.error("GetGenres error with: " + response);
         }
     });
 };

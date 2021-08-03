@@ -56,5 +56,11 @@ namespace MovieWebsite.Controllers
         {
             return Json(_getGenresCommandHandler.Handle());
         }
+
+        [HttpPost]
+        public IActionResult FindMovies(string search, string[] genres, int[] years)
+        {
+            return Json(new { hi = "there" });
+        }
     }
 }

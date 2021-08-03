@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search for movies">
+        <input id="searchBox" type="text" onchange="tk.getResults(this);" data-bind="textInput: tk.searchBox" class="form-control" placeholder="Search for movies">
         <div class="input-group-append">
             <button class="btn btn-secondary" type="button">
                 Search
@@ -18,12 +18,12 @@
 </div>
 
 <div class="row">
-    <div id="filterGenre" class="col-md-3">
+    <div class="col-md-3">
         <div class="row">
             <p><strong>Genres</strong></p>
         </div>
-        <div class="raw">
-            <div data-bind="template: { name:'template-filter-genre', foreach: tk.filters.genres }"></div>
+        <div id="filterGenre" class="raw">
+            <div class="tk-filter" onchange="tk.getResults(this);" data-bind="template: { name:'template-filter-genre', foreach: tk.filters.genres }"></div>
         </div>
         <div class="raw">
             <p>&nbsp; &nbsp;</p>
@@ -31,13 +31,15 @@
         <div class="row">
             <p><strong>Years</strong></p>
         </div>
-        <div class="raw">
-            <div data-bind="template: { name:'template-filter-year', foreach: tk.filters.years }"></div>
+        <div id="filterYear" class="raw">
+            <div class="tk-filter" onchange="tk.getResults(this);" data-bind="template: { name:'template-filter-year', foreach: tk.filters.years }"></div>
         </div>
     </div>
-    <div id="filterYear" class="col-md-9">
-        <p></p><strong>Search Result</strong><p>
-        <p>The results will go here.</p>
+    <div class="col-md-9">
+        <div class="row">
+            <p><strong>Seaqrch results</strong></p>
+        </div>
+        <p>No movies</p>
     </div>
 </div>
 
