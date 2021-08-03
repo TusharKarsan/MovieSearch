@@ -23,6 +23,10 @@ namespace MovieIndex
             _wordToMovie = new SortedList<string, List<Movie>>();
         }
 
+        public int[] GetYears() => _yearToMovie.Keys.ToArray();
+
+        public string[] GetGenres() => _genreToMovie.Keys.ToArray();
+
         public void BuildIndex(Movie[] movies)
         {
             if (movies == null)

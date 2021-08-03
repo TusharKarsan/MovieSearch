@@ -1,22 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MovieWebsite.CommandHandlers;
 using MovieWebsite.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using MovieWebsite.Models;
 
 namespace MovieWebsite.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IGetYearsCommandHandler _getYearsCommandHandler;
+        private readonly IGetGenresCommandHandler _getGenresCommandHandler;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(
+            ILogger<HomeController> logger,
+            IGetYearsCommandHandler getYearsCommandHandler,
+            IGetGenresCommandHandler getGenresCommandHandler
+        )
         {
             _logger = logger;
+            _getYearsCommandHandler = getYearsCommandHandler;
+            _getGenresCommandHandler = getGenresCommandHandler;
         }
 
         public IActionResult Index()
@@ -39,6 +43,18 @@ namespace MovieWebsite.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+        public IActionResult GetYears()
+        {
+            return Json(_getYearsCommandHandler.Handle());
+        }
+
+        [HttpGet]
+        public IActionResult GetGenres()
+        {
+            return Json(_getGenresCommandHandler.Handle());
         }
     }
 }

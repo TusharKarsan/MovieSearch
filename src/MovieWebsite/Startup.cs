@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using MovieDB;
+using MovieIndex;
 using MovieModels;
 
 namespace MovieWebsite
@@ -59,6 +60,11 @@ namespace MovieWebsite
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // Read movie JSON and build the index.
+            IMovieData movieData = app.ApplicationServices.GetRequiredService<IMovieData>();
+            IMovieIndex movieIndex = app.ApplicationServices.GetRequiredService<IMovieIndex>();
+            movieIndex.BuildIndex(movieData.GetMovies());
         }
     }
 }

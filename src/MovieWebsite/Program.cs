@@ -20,6 +20,7 @@ namespace MovieWebsite
                 .ConfigureContainer<ContainerBuilder>(builder => {
                     builder.RegisterModule<MovieDbModule>();
                     builder.RegisterModule<MovieIndexModule>();
+                    builder.RegisterModule<MovieWebsiteModule>();
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
