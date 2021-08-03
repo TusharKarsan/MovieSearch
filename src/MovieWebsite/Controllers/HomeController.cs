@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using MovieWebsite.Models;
 
 namespace MovieWebsite.Controllers
 {
@@ -21,6 +22,12 @@ namespace MovieWebsite.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Search()
+        {
+            var model = new SearchViewModel();
+            return View(model);
         }
 
         public IActionResult Privacy()
