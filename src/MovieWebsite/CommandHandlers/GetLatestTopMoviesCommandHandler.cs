@@ -38,7 +38,7 @@ namespace MovieWebsite.CommandHandlers
                 return y.Year - x.Year;
             });
 
-            return movies;
+            return movies.Where(movie => !string.IsNullOrWhiteSpace(movie.Info.ImageUrl)).Take(numberOfMovies).ToList();
         }
     }
 }
