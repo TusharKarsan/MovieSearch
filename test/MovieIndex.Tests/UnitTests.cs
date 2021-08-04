@@ -31,7 +31,7 @@ namespace MovieIndex.Tests
 
             result.Should().Contain(new[] { 1000, 1001, 1002 });
 
-            result.Length.Should().Be(3);
+            result.Should().HaveCount(3);
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace MovieIndex.Tests
 
             result.Should().Contain(new[] { "genre1a", "genre1b", "genre2b", "genre3b" });
 
-            result.Length.Should().Be(4);
+            result.Should().HaveCount(4);
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace MovieIndex.Tests
 
             result.Should().Contain(new[] { "title1a", "title1b", "title2b", "title3b" });
 
-            result.Length.Should().Be(4);
+            result.Should().HaveCount(4);
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace MovieIndex.Tests
         {
             var result = _sut.Search(terms, years, genres);
 
-            result.Count.Should().Be(expectedResults);
+            result.Should().HaveCount(expectedResults);
         }
     }
 }
