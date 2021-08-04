@@ -50,6 +50,10 @@
                     <td>Runtime</td>
                     <th>@( Model.Info.RunTimeSec / 60.0f )</th>
                 </tr>
+                <tr>
+                    <td>Genres</td>
+                    <th>@string.Join(", ", Model.Info.Genres)</th>
+                </tr>
             </tbody>
         </table>
     </div>

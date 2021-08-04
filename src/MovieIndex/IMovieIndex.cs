@@ -9,6 +9,8 @@ namespace MovieIndex
 
         string[] GetGenres();
 
+        string[] GetWords();
+
         void BuildIndex(Movie[] movies);
 
         List<Movie> Search(string searchTerms, int[] years, string[] genres = null);

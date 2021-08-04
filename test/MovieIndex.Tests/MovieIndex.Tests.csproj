@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\MovieIndex\MovieIndex.csproj" />
+    <ProjectReference Include="..\..\src\MovieModels\MovieModels.csproj" />
   </ItemGroup>
 
 </Project>

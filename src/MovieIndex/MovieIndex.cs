@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace MovieIndex
 {
-
     public class MovieIndex : IMovieIndex
     {
         private static bool _indexedAlready = false;
@@ -18,7 +17,9 @@ namespace MovieIndex
 
         static MovieIndex()
         {
-            _yearToMovie = new SortedList<int, List<Movie>>();
+            var descendingComparer = Comparer<int>.Create((x, y) => y.CompareTo(x));
+
+            _yearToMovie = new SortedList<int, List<Movie>>(descendingComparer);
             _genreToMovie = new SortedList<string, List<Movie>>();
             _wordToMovie = new SortedList<string, List<Movie>>();
         }
@@ -26,6 +27,8 @@ namespace MovieIndex
         public int[] GetYears() => _yearToMovie.Keys.ToArray();
 
         public string[] GetGenres() => _genreToMovie.Keys.ToArray();
+
+        public string[] GetWords() => _wordToMovie.Keys.ToArray();
 
         public void BuildIndex(Movie[] movies)
         {
@@ -40,7 +43,7 @@ namespace MovieIndex
              */
 
             if (_indexedAlready)
-                throw new InvalidOperationException("Multiple int builds is not supported!");
+                throw new InvalidOperationException("Multiple index builds is not supported!");
             _indexedAlready = true;
 
             foreach (Movie movie in movies)
@@ -80,7 +83,7 @@ namespace MovieIndex
 
         private static char[] _separators = { ' ', '\t', '\n', '\r', ',', '.', '?', '&', '-', '+', ':' };
 
-        private static string[] _stopWrods = { "a", "and", "of", "the" };
+        private static string[] _stopWrods = { "a", "and", "of", "in", "the" };
 
         public static List<string> SplitAndSanitize(string terms)
         {
