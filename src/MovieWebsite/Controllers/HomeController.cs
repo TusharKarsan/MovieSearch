@@ -16,6 +16,7 @@ namespace MovieWebsite.Controllers
         private readonly IMapper _mapper;
         private readonly IFindMoviesCommandHandlers _findMoviesCommandHandlers;
         private readonly IGetYearsCommandHandler _getYearsCommandHandler;
+        private readonly IGetLatestTopMoviesCommandHandler _getLatestTopMoviesCommandHandler;
         private readonly IGetGenresCommandHandler _getGenresCommandHandler;
         private readonly IShowMovieInfoCommandHandler _showMovieInfoCommandHandler;
 
@@ -24,6 +25,7 @@ namespace MovieWebsite.Controllers
             IMapper mapper,
             IFindMoviesCommandHandlers findMoviesCommandHandlers,
             IGetYearsCommandHandler getYearsCommandHandler,
+            IGetLatestTopMoviesCommandHandler getLatestTopMoviesCommandHandler,
             IGetGenresCommandHandler getGenresCommandHandler,
             IShowMovieInfoCommandHandler showMovieInfoCommandHandler
         )
@@ -32,19 +34,21 @@ namespace MovieWebsite.Controllers
             _mapper = mapper;
             _findMoviesCommandHandlers = findMoviesCommandHandlers;
             _getYearsCommandHandler = getYearsCommandHandler;
+            _getLatestTopMoviesCommandHandler = getLatestTopMoviesCommandHandler;
             _getGenresCommandHandler = getGenresCommandHandler;
             _showMovieInfoCommandHandler = showMovieInfoCommandHandler;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var movies = _getLatestTopMoviesCommandHandler.Handle(4);
+
+            return View(new HomeIndexViewModel(movies));
         }
 
         public IActionResult Search()
         {
-            var model = new SearchViewModel();
-            return View(model);
+            return View(new HomeSearchViewModel());
         }
 
         public IActionResult Privacy()

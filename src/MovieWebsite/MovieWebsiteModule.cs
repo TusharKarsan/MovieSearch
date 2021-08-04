@@ -9,6 +9,7 @@ namespace MovieWebsite
         {
             builder.RegisterType<FindMoviesCommandHandler>().As<IFindMoviesCommandHandlers>();
             builder.RegisterType<GetYearsCommandHandler>().As<IGetYearsCommandHandler>();
+            builder.RegisterType<GetLatestTopMoviesCommandHandler>().As<IGetLatestTopMoviesCommandHandler>();
             builder.RegisterType<GetGenresCommandHandler>().As<IGetGenresCommandHandler>();
             builder.RegisterType<ShowMovieInfoCommandHandler>().As<IShowMovieInfoCommandHandler>();
         }
