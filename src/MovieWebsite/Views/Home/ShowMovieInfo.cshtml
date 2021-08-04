@@ -1,44 +1,57 @@
 ﻿@model MovieModels.MoviePoco.Movie
 
 @{
-    ViewData["Title"] = "Show Movie Info";
+    ViewData["Title"] = "Info: " + Model.Title;
 }
 
 <h1>@Model.Title</h1>
 
-<table class="table">
-    <tbody>
-        <tr>
-            <td>Year</td>
-            <th>@Model.Year</th>
-        </tr>
-        <tr>
-            <td>Actors / Actresses</td>
-            <th>@string.Join(", ", Model.Info.Actors)</th>
-        </tr>
-        <tr>
-            <td>Directors</td>
-            <th>@string.Join(", ", Model.Info.Directors)</th>
-        </tr>
-        <tr>
-            <td>Release date</td>
-            <th>@Model.Info.ReleaseDate.ToString("o")</th>
-        </tr>
-        <tr>
-            <td>Rating</td>
-            <th>@Model.Info.Rating</th>
-        </tr>
-        <tr>
-            <td>Plot</td>
-            <th>@Model.Info.Plot</th>
-        </tr>
-        <tr>
-            <td>Rank</td>
-            <th>@Model.Info.Rank</th>
-        </tr>
-        <tr>
-            <td>Runtime</td>
-            <th>@( Model.Info.RunTimeSec / 60.0f )</th>
-        </tr>
-    </tbody>
-</table>
+<p>&nbsp; </p>
+
+<div class="row">
+    <div class="col-md-6">
+        <img alt="@Model.Title" src="@Model.Info.ImageUrl" class="figure-img img-fluid" />
+    </div>
+    <div class="col-md-6">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Year</td>
+                    <th>@Model.Year</th>
+                </tr>
+                <tr>
+                    <td>Actors / Actresses</td>
+                    <th>@string.Join(", ", Model.Info.Actors)</th>
+                </tr>
+                <tr>
+                    <td>Directors</td>
+                    <th>@string.Join(", ", Model.Info.Directors)</th>
+                </tr>
+                <tr>
+                    <td>Release date</td>
+                    <th>@Model.Info.ReleaseDate.ToString("o")</th>
+                </tr>
+                <tr>
+                    <td>Rating</td>
+                    <th>@Model.Info.Rating</th>
+                </tr>
+                @if (!string.IsNullOrWhiteSpace(@Model.Info.Plot))
+                {
+                    <tr>
+                        <td>Plot</td>
+                        <th>@Model.Info.Plot</th>
+                    </tr>
+                }
+                <tr>
+                    <td>Rank</td>
+                    <th>@Model.Info.Rank</th>
+                </tr>
+                <tr>
+                    <td>Runtime</td>
+                    <th>@( Model.Info.RunTimeSec / 60.0f )</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
