@@ -1,12 +1,12 @@
 # MovieSearch
 Programmed by Tushar Karsan.
 
-Front-End
+Front-End:
  - Twitter Bootstrap
  - jQuery (for making Ajax calls)
  - Knockout JS
 
-Back-End
+Back-End:
  - .Net Core 3.1
  - AutoFac
  - AutoMapper
