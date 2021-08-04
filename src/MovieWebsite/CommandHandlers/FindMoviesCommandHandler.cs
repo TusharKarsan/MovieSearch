@@ -9,11 +9,11 @@ namespace MovieWebsite.CommandHandlers
         List<Movie> Handle(string search, string[] genres, int[] years);
     }
 
-    public class FindMoviesCommandHandlers : IFindMoviesCommandHandlers
+    public class FindMoviesCommandHandler : IFindMoviesCommandHandlers
     {
         private readonly IMovieIndex _movieIndex;
 
-        public FindMoviesCommandHandlers(IMovieIndex movieIndex)
+        public FindMoviesCommandHandler(IMovieIndex movieIndex)
         {
             _movieIndex = movieIndex;
         }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MovieModels.MoviePoco;
 using MovieModels.SearchResults;
 using MovieWebsite.CommandHandlers;
 using MovieWebsite.Models;
@@ -16,13 +17,15 @@ namespace MovieWebsite.Controllers
         private readonly IFindMoviesCommandHandlers _findMoviesCommandHandlers;
         private readonly IGetYearsCommandHandler _getYearsCommandHandler;
         private readonly IGetGenresCommandHandler _getGenresCommandHandler;
+        private readonly IShowMovieInfoCommandHandler _showMovieInfoCommandHandler;
 
         public HomeController(
             ILogger<HomeController> logger,
             IMapper mapper,
             IFindMoviesCommandHandlers findMoviesCommandHandlers,
             IGetYearsCommandHandler getYearsCommandHandler,
-            IGetGenresCommandHandler getGenresCommandHandler
+            IGetGenresCommandHandler getGenresCommandHandler,
+            IShowMovieInfoCommandHandler showMovieInfoCommandHandler
         )
         {
             _logger = logger;
@@ -30,6 +33,7 @@ namespace MovieWebsite.Controllers
             _findMoviesCommandHandlers = findMoviesCommandHandlers;
             _getYearsCommandHandler = getYearsCommandHandler;
             _getGenresCommandHandler = getGenresCommandHandler;
+            _showMovieInfoCommandHandler = showMovieInfoCommandHandler;
         }
 
         public IActionResult Index()
@@ -81,6 +85,21 @@ namespace MovieWebsite.Controllers
             var result = _findMoviesCommandHandlers.Handle(search, genres, years);
 
             return Json(_mapper.Map<MovieSearchResult[]>(result));
+        }
+
+        [HttpGet("{id}")]
+        [Route("Home/ShowMovieInfo/{id}")]
+        public IActionResult ShowMovieInfo(int id)
+        {
+            if (id < 1)
+                return BadRequest("id is invalid");
+
+            Movie movie = _showMovieInfoCommandHandler.Handle(id);
+
+            if (movie == null)
+                return NotFound("movie was not found");
+
+            return View(movie);
         }
     }
 }

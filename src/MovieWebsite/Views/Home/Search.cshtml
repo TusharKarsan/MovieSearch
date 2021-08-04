@@ -15,6 +15,7 @@
             </button>
         </div>
     </div>
+    <p>Example search are "term" and "york", try it out!</p>
 </div>
 
 <div class="row">
@@ -23,7 +24,7 @@
             <p><strong>Genres</strong></p>
         </div>
         <div id="filterGenre" class="raw">
-            <div class="tk-filter" onchange="tk.getResults(this);" data-bind="template: { name:'template-filter-genre', foreach: tk.filters.genres }"></div>
+            <div class="tk-filter" onchange="tk.getResults(this);" data-bind="template: { name: 'template-filter-genre', foreach: tk.filters.genres }"></div>
         </div>
         <div class="raw">
             <p>&nbsp; &nbsp;</p>
@@ -32,14 +33,17 @@
             <p><strong>Years</strong></p>
         </div>
         <div id="filterYear" class="raw">
-            <div class="tk-filter" onchange="tk.getResults(this);" data-bind="template: { name:'template-filter-year', foreach: tk.filters.years }"></div>
+            <div class="tk-filter" onchange="tk.getResults(this);" data-bind="template: { name: 'template-filter-year', foreach: tk.filters.years }"></div>
         </div>
     </div>
     <div class="col-md-9">
         <div class="row">
             <p><strong>Seaqrch results</strong></p>
         </div>
-        <p>No movies</p>
+        <div class="row">
+            <p data-bind="visible: tk.searchResult().length == 0">No movies</p>
+            <div class="tk-result" data-bind="template: { name: 'template-search-result', foreach: tk.searchResult }"></div>
+        </div>
     </div>
 </div>
 
@@ -57,6 +61,16 @@
             <input class="form-check-input" type="checkbox" data-bind="value: $data, id: $data" />
             <label class="form-check-label" data-bind="text: $data" />
         </div>
+    </script>
+
+    <script type="text/html" id="template-search-result">
+        <p data-bind="attr: { id: id }">
+            <label data-bind="text: year"></label>
+            <a data-bind="attr: { href: '/Home/ShowMovieInfo/' + id }">
+                <storng data-bind="text: title"></storng>
+            </a><br />
+            <label data-bind="text: info.plot"></label>
+        </p>
     </script>
 
     <script type="text/javascript" src="~/js/search.js"></script>

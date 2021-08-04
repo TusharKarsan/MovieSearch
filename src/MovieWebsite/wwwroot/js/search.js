@@ -7,7 +7,9 @@ var tk = {
     filters : {
         years  : ko.observableArray([]),
         genres : ko.observableArray([])
-    }
+    },
+
+    searchResult: ko.observableArray([])
 };
 
 tk.getYears = function (callback) {
@@ -68,8 +70,10 @@ tk.getResults = function (theControl) {
 
     var searchCriteria = tk.searchBox();
 
-    if (searchCriteria.length == 0)
+    tk.searchResult([]);
+    if (searchCriteria.length == 0) {
         return 1;
+    }
 
     var payload = {
         search: searchCriteria,
@@ -82,8 +86,7 @@ tk.getResults = function (theControl) {
         url: "/Home/FindMovies",
         data: payload,
         success: function (response) {
-            console.log("got search results");
-            console.log(response);
+            tk.searchResult(response);
         },
         failure: function (response) {
             console.warn("GetGenres failure with: " + response);
